@@ -42,7 +42,7 @@ class MyApp < Sinatra::Base
 private
 
   def twitter_consumer
-    creds = YAML.load_file(File.join(File.dirname(__FILE__), 'twitter.yml'))
+    creds = YAML.load_file(File.join(File.dirname(__FILE__), 'config', 'twitter.yml'))
     consumer = OAuth::Consumer.new(creds["consumer_key"], creds["consumer_secret"],
       {
         site: 'https://api.twitter.com',
