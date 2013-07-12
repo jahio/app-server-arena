@@ -1,0 +1,20 @@
+require 'rubygems'
+require 'bundler'
+require 'sinatra/base'
+require 'yaml'
+require 'oauth'
+require 'pry'
+require 'json'
+
+Bundler.require(ENV['RACK_ENV'] || :default)
+
+require './app.rb'
+
+# This is a check to see if the necessary twitter.yml exists.
+# If not, bail out quick and don't launch.
+unless File.exists?(File.join(File.dirname(__FILE__), 'twitter.yml'))
+  puts "Didn't find twitter.yml next to app.rb. Make sure it exists and has valid credentials, then start this again."
+  exit!(false)
+end
+
+run MyApp
