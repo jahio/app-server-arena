@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra'
+gem 'json'
 gem 'oauth'
 gem 'pry' # obviously don't do this in prod, just for demo purposes
 

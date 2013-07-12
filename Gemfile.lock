@@ -4,6 +4,7 @@ GEM
     coderay (1.0.9)
     daemons (1.1.9)
     eventmachine (1.0.3)
+    json (1.7.7)
     kgio (2.8.0)
     method_source (0.8.1)
     oauth (0.4.7)
@@ -36,6 +37,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  json
   oauth
   pry
   puma
