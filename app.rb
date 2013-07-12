@@ -57,7 +57,7 @@ private
 
   def app_server
     # Figure out which server we're running under
-    ["Rainbows", "Puma", "Thin", "Unicorn"].each do |s|
+    ["Rainbows", "Puma", "Thin", "Unicorn", "Passenger"].each do |s|
       if Module.const_defined? s
         return s
       end
