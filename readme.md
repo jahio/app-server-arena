@@ -14,7 +14,7 @@ There's a very simple Sinatra application here designed to have three basic capa
 * Compute Pi to 10,000 decimal places
 * Hit Twitter and get the last 10 tweets from @devops_borat
 
-The idea here is to provide diagnostic information (first point), do some mildly computational task,
+The idea here is to provide diagnostic information (first point), do some mildly computationaly expensive task,
 and then have a way to see how things perform when waiting on network response.
 
 #### The slides
