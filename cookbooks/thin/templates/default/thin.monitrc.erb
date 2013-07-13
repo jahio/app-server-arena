@@ -1,0 +1,14 @@
+check process thin_master_<%= @app_name %>
+  matching "thin server"
+  start program = "/bin/bash -c '/data/<%= @app_name %>/shared/config/thin_control.sh start'"
+  as uid deploy and gid deploy
+  stop program = "/bin/bash -c '/data/<%= @app_name %>/shared/config/thin_control.sh stop'"
+  as uid deploy and gid deploy
+  group thin_<%= @app_name %> # also could be called "thin_cluster_<%= @app_name %>"
+
+<% @num_workers.times do |x| %>
+  check process thin_worker_<%= x %>
+  with pidfile /var/run/engineyard/pids/thin.<%= @app_name %>.<%= x %>.pid
+  if mem > 255.0 MB for 2 cycles then exec "/bin/bash -c '/data/<%= @app_name %>/shared/config/thin_control.sh restart && sleep 1'"
+
+<% end %>

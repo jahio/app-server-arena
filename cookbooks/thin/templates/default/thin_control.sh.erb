@@ -1,0 +1,65 @@
+#!/bin/bash
+#
+# Thin control script for Engine Yard Cloud. Install via custom chef recipes:
+# https://support.cloud.engineyard.com/entries/21009867-Customize-Your-Environment-with-Chef-Recipes
+# https://support.cloud.engineyard.com/entries/21406977-Custom-Chef-Recipes-Examples-Best-Practices
+# Author: J. Austin Hughey <jhughey@engineyard.com>
+# I stood on the shoulders of the following giants to write this script:
+# - Wayne E. Seguin
+# - Scott M. Likens
+# - Ben Burkert
+# - Glenn Davy
+# - Kevin Rutten
+# - Dennis Bell
+#
+# NOTES:
+# - THIS SCRIPT REQUIRES THE USE OF BUNDLER. NO I WON'T MAKE AN EXCEPTION.
+# - THIS SCRIPT IS NOT FULLY TESTED, IS MISSING FEATURES, AND IS GENERALLY NOT PRODUCTION READY.
+# - Use at your own risk. No warranties, expressed or implied, yadda yadda.
+
+# Make sure we're not running as root.
+if [[ $(id -u) -eq 0 ]]; then
+  echo "ERROR: This script must be run as a user, not as root." 2>&1
+  exit 1
+fi
+
+source /data/<%= @app_name %>/shared/config/env
+source /data/<%= @app_name %>/shared/config/env.custom
+
+start_thin()
+{
+  cd "/data/${application}/current"
+  $THIN_EXEC start -e $RACK_ENV -C $THIN_CONFIG
+}
+
+restart_thin()
+{
+  cd "/data/${application}/current"
+  $THIN_EXEC restart -e $RACK_ENV -C $THIN_CONFIG
+}
+
+stop_thin()
+{
+  cd "/data/${application}/current"
+  $THIN_EXEC stop -C $THIN_CONFIG
+}
+
+# Take appropriate action depending on the argument
+case "$1" in
+
+restart)
+  restart_thin
+  ;;
+start)
+  start_thin
+  ;;
+stop)
+  stop_thin
+  ;;
+*)
+echo "Usage: $0 {start|stop|restart}"
+exit 1
+;;
+esac
+
+exit $?

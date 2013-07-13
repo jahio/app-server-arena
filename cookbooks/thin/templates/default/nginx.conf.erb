@@ -1,0 +1,42 @@
+upstream upstream_<%= @app_name %> {
+<% @num_workers.times do |n| -%>
+  server unix:/var/run/engineyard/thin.<%= @app_name %>.<%= n %>.sock fail_timeout=0;
+<% end -%>
+}
+
+server {
+  listen 81;
+  server_name <%= @vhost %>;
+
+  # Root of the project
+  root /data/<%= @app_name %>/current/public;
+
+  # Logs
+  access_log /var/log/engineyard/nginx/<%= @app_name %>.access.log main;
+  error_log /var/log/engineyard/nginx/<%= @app_name %>.error.log notice;
+
+  include /etc/nginx/common/servers.conf;
+
+  # Location for the Upstream (a/k/a thin)
+  location @app_<%= @app_name %> {
+    include /etc/nginx/common/proxy.conf;
+    proxy_pass http://upstream_<%= @app_name %>;
+  }
+
+
+  # set Expire header on assets: see http://developer.yahoo.com/performance/rules.html#expires
+  location ~ ^/(images|assets|javascripts|stylesheets)/ {
+    try_files  $uri $uri/index.html /last_assets/$uri /last_assets/$uri.html @app_<%= @app_name %>;
+    expires 10y;
+  }
+
+  location / {
+    if (-f $document_root/system/maintenance.html) { return 503; }
+    try_files  $uri $uri/index.html $uri.html @app_<%= @app_name %>;
+  }
+
+  location = /500.html {
+    root /data/<%= @app_name %>/current/public;
+  }
+  include /etc/nginx/servers/<%= @app_name %>/custom.conf;
+}  
