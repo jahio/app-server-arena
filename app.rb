@@ -5,22 +5,13 @@
 # * do a twitter search, simulating network wait
 class MyApp < Sinatra::Base
   get '/' do
-    body = '<!DOCTYPE html>'
-    body << <<-EOF     
-    <html>
-    <body>
-    <a href="/server">Server Info</a><br>
-    <a href="/pi">Calculate &Pi;</a><br>
-    <a href="/api">Do something waiting on network IO</a>
-    </body>
-    </html>
-    EOF
+    erb :index
   end
 
   get '/server' do
     # Figure out which app server we're running under
-    current_server = app_server
-    "Hello, world! Currently running under #{current_server || 'UNKNON - Maybe Passenger?'}."
+    @current_server = app_server
+    erb :server
   end
 
   get '/pi' do
