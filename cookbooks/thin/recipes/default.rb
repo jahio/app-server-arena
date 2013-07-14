@@ -65,6 +65,16 @@ if node[:environment][:name] == 'asa_thin'
       group node[:owner_name]
       mode 0554 # owner: r/x, group: r/x, others: r
       variables({
+        app_name: app_name        
+      })
+    end
+
+    template "/etc/nginx/servers/#{app_name}.conf" do
+      source "nginx.conf.erb"
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0644
+      variables({
         app_name: app_name,
         vhost: "_", # whatever you set the domain name as in the dashboard
         num_workers: num_workers
@@ -88,4 +98,10 @@ if node[:environment][:name] == 'asa_thin'
       command "sudo monit start all -g thin_#{app_name}"
     end
   end
+
+  # Restart nginx.
+  execute "restart_nginx" do
+    command "sudo /etc/init.d/nginx restart"
+  end
+
 end
