@@ -8,7 +8,10 @@
 
 <h1>Server Information</h1>
 
-<p>Current app server is <strong><%= @current_server %></strong>.</p>
+<p>
+  Current app server is <strong><%= @current_server %></strong> under process <%= Process.pid %>
+  under ruby <%= RUBY_VERSION %>, the &quot;<%= RUBY_ENGINE %>&quot; engine, and <%= RUBY_PLATFORM %> platform.
+</p>
 
 <h2>Request Information</h2>
 <table>
