@@ -15,7 +15,8 @@ class AppServerArena < Sinatra::Base
   end
 
   get '/pi' do
-    "\n\nI calculated &Pi; to 10k digits for you! See below:\n\n#{calc_pi(20_000)}"
+    @pi = calc_pi(20_000)
+    erb :pi
   end
 
   get '/api' do
