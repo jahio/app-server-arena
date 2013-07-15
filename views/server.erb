@@ -8,10 +8,28 @@
 
 <h1>Server Information</h1>
 
+<p>Current app server is <strong><%= @current_server %></strong>.</p>
+
+<h2>Request Information</h2>
+<table>
+  <% @request.env.each do |k,v| %>
+  <tr>
+    <td><%= k %>:</td>
+    <td><%= v %></td>
+  </tr>
+  <% end %>
+</table>
+
+<h2>Response Information</h2>
 <table>
   <tr>
-    <td>App Server:</td>
-    <td><%= @current_server %></td>
+    <td>Headers:</td>
+    <td><%= @response.header %></td>
+  </tr>
+
+  <tr>
+    <td>Status:</td>
+    <td><%= @response.status %></td>
   </tr>
 </table>
 

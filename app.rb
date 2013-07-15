@@ -11,6 +11,10 @@ class AppServerArena < Sinatra::Base
   get '/server' do
     # Figure out which app server we're running under
     @current_server = app_server
+
+    # Set the request and response objects for page rendering
+    @request = request
+    @response = response
     erb :server
   end
 
