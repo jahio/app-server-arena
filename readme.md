@@ -8,11 +8,13 @@ This repository contains code, notes and other assets pertaining to my talk enti
 
 #### The app
 
-There's a very simple Sinatra application here designed to have three basic capabilities:
+There's a very simple Sinatra application here designed to have some basic capabilities:
 
-* Spit out the name of the app server running it at the moment
-* Compute Pi to 10,000 decimal places
+* Spit out the name of the app server running it at the moment and other process/env info
+* Compute Pi to 20,000 decimal places
 * Hit Twitter and get the last 10 tweets from @devops_borat
+* Sleep for 5 seconds
+* Randomly do one of the above with a 50% chance to do the first
 
 The idea here is to provide diagnostic information (first point), do some mildly computationaly expensive task,
 and then have a way to see how things perform when waiting on network response.
