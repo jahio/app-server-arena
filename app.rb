@@ -3,7 +3,7 @@
 # * tell you what app server is running this code (/server)
 # * compute pi to 10,000 decimal places as a pseudo-task to fake real work
 # * do a twitter search, simulating network wait
-class MyApp < Sinatra::Base
+class AppServerArena < Sinatra::Base
   get '/' do
     erb :index
   end

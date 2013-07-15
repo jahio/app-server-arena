@@ -16,4 +16,4 @@ require 'json'
 Bundler.require(ENV['RACK_ENV'] || :default)
 
 require './app.rb'
-run MyApp
+run AppServerArena
