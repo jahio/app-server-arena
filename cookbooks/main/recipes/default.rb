@@ -1,4 +1,5 @@
 include_recipe "thin"
+include_recipe "nrsysmond"
 
 #execute "testing" do
 #  command %Q{
