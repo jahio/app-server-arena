@@ -5,10 +5,62 @@
 # * do a twitter search, simulating network wait
 class AppServerArena < Sinatra::Base
   get '/' do
-    erb :index
+    index
   end
 
   get '/server' do
+    server
+  end
+
+  get '/pi' do
+    pi
+  end
+
+  get '/borat' do
+    borat
+  end
+
+  get '/sleep' do
+    do_sleep
+  end
+
+  get '/random' do
+    do_random
+  end
+
+private
+  def do_random
+    num = 1 + rand(10) # random number b/t 1 and 10
+    case num
+    when 1..5
+      server
+    when 6..7
+      do_sleep
+    when 8..9
+      borat
+    else
+      pi
+    end
+  end
+
+  def do_sleep
+    sleep 5
+    erb :sleep
+  end
+
+  def borat
+    twitter = twitter_consumer
+    response = twitter.request(:get, 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=devops_borat&count=10')
+    body = "<!DOCTYPE html>\n<html>\n<body>"
+    body << "Here's what Twitter came back with:\n\n<ul>\n"
+    JSON.parse(response.body).each do |x|
+      body << "<li>#{x["text"]}</li>\n"
+    end
+    body << "</ul>\n</body>\n</html>"
+    return body    
+  end
+
+  def server
     # Figure out which app server we're running under
     @current_server = app_server
 
@@ -18,24 +70,14 @@ class AppServerArena < Sinatra::Base
     erb :server
   end
 
-  get '/pi' do
+  def pi
     @pi = calc_pi(20_000)
     erb :pi
   end
 
-  get '/api' do
-    twitter = twitter_consumer
-    response = twitter.request(:get, 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=devops_borat&count=10')
-    body = "<!DOCTYPE html>\n<html>\n<body>"
-    body << "Here's what Twitter came back with:\n\n<ul>\n"
-    JSON.parse(response.body).each do |x|
-      body << "<li>#{x["text"]}</li>\n"
-    end
-    body << "</ul>\n</body>\n</html>"
-    return body
+  def index
+    erb :index
   end
-
-private
 
   def twitter_consumer
     creds = YAML.load_file(File.join(File.dirname(__FILE__), 'config', 'twitter.yml'))
