@@ -4,9 +4,11 @@ GEM
     coderay (1.0.9)
     daemons (1.1.9)
     eventmachine (1.0.3)
+    ey_config (0.0.6)
     json (1.7.7)
     kgio (2.8.0)
     method_source (0.8.1)
+    newrelic_rpm (3.6.5.130)
     oauth (0.4.7)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -37,7 +39,9 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ey_config
   json
+  newrelic_rpm
   oauth
   pry
   puma
