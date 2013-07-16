@@ -13,7 +13,7 @@ There's a very simple Sinatra application here designed to have some basic capab
 * Spit out the name of the app server running it at the moment and other process/env info
 * Compute Pi to 20,000 decimal places
 * Hit Twitter and get the last 10 tweets from @devops_borat
-* Sleep for 5 seconds
+* Sleep for 1 second
 * Randomly do one of the above with a 50% chance to do the first (except Twitter because of API rate limitations)
 
 The idea here is to provide diagnostic information (first point), do some mildly computationaly expensive task,
