@@ -53,6 +53,9 @@ the database driver for whatever reason - that'd just skew the tests in a weird 
 I used a tool called [Siege](http://www.joedog.org/siege-home/) by [Jeff Fulmer](http://www.joedog.org/author/jdfulmer/).
 I'd had major problems getting apache bench to work right and stumbled on Siege, which has a lot of very interesting options.
 
+(Tip: you can install this crazy easy on OS X via ```brew install siege```.
+If you don't have [Homebrew](http://mxcl.github.io/homebrew/), you really should get it.)
+
 I used the following command/syntax to perform these tests,
 then put the results in flat files you can read under the "performance" subdirectory:
 
