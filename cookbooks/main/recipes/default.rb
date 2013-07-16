@@ -1,5 +1,6 @@
 include_recipe "thin"
 include_recipe "nrsysmond"
+include_recipe "puma"
 
 #execute "testing" do
 #  command %Q{

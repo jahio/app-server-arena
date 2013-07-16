@@ -1,0 +1,124 @@
+upstream <%= @app_name %>_upstream {
+  server unix:/var/run/engineyard/<%= @app_name %>/puma.sock fail_timeout=0;
+}
+
+server {
+
+  #
+  # The default port to listen on.
+  #
+  # Note that this may be also specified as IP:Port combinations.
+  #
+  # By default Nginx will listen for traffic on the specified port for all IP
+  # addresses assigned to the host.
+  #
+  listen 81;
+
+  #
+  # Server Names
+  #
+  # This is the list of IP's and/or domain names with any wildcards or
+  # subdomains. The special value '_' is used to match all domains and IPs and
+  # generally denotes the default server for the entire Nginx process.
+  #
+  # Note that if you specify any domains with wild cards, the very first domain
+  # listed must be without a wild card. For example:
+  #
+  # server_name www.mydomain.org *.mydomain.org;
+  #
+  # It is good practice to include wildcard subdomains so that Nginx will not
+  # require a restart when new services are added for an application.
+  #
+  server_name _;
+
+  #
+  # SSL certificates
+  #
+  # Be sure that the directory and files are owned by and/or readable by the
+  # Nginx user. Additionally, it is recommended that you do not use signed
+  # certificates. The justification for this reocommendation is that in order to
+  # start up the Nginx server the password will need to be typed in every time.
+  # This precludes automatic/automated web server restarts on boot or otherwise.
+  #
+
+  #
+  # This assigns the maximum accepted body size of client request. It is placed
+  # here as a precaution to limit against certain kinds of attacks. Be aware that
+  # it is here in case the application accepts large file uploads. In such a case
+  # this value will need to be adjusted.
+  #
+  client_max_body_size 100M;
+
+  #
+  # The application root which is inherited for all location blocks below.
+  #
+  root /data/<%= @app_name %>/current/public;
+
+  #
+  # Logging
+  #
+  # Log files are stored within the /var/log/engineyard/nginx/ directory.
+  #
+  access_log /var/log/engineyard/nginx/<%= @app_name %>.access.log main;
+  error_log /var/log/engineyard/nginx/<%= @app_name %>.error.log notice;
+
+  #
+  # Expire header on assets. For more information on the reasoning behind
+  # this please browse http://developer.yahoo.com/performance/rules.html#expires
+  #
+  # set Expire header on assets: see http://developer.yahoo.com/performance/rules.html#expires
+  location ~ ^/(images|assets|javascripts|stylesheets)/ {
+  try_files  $uri $uri/index.html /last_assets/$uri /last_assets/$uri.html @app_<%= @app_name %>;
+  expires 10y;
+  }
+
+  #
+  # HTTP Error handling.
+  #
+  # 404 - Resource Not found.
+  error_page 404 /404.html;
+  # 50X - Application Error(s)
+  error_page 500 502 504 /500.html;
+  # 503 - System Maintenance
+  error_page 503 @503;
+  recursive_error_pages on;
+  location @503 {
+
+    error_page 405 = /system/maintenance.html;
+
+    # Serve static assets if found.
+    if (-f $request_filename) {
+      break;
+    }
+
+    rewrite ^(.*)$ /system/maintenance.html break;
+  }
+
+
+
+  error_page 503 /system/maintenance.html;
+
+
+  #For Puma, simply proxy
+  location @app_<%= @app_name %> {
+  include /etc/nginx/common/proxy.conf;
+  proxy_pass http://<%= @app_name %>_upstream;
+  }
+
+  #
+  # The default location will process the request as follows:
+  #
+  # 1. If a system maintenance page is in place, serve it.
+  # 2. If the request uri matches a resource on disk, serve it.
+  # 3. If the request uri/index.html matches a cache file on disk, serve it.
+  # 4. If the request uri.html is cached on disk, serve it.
+  # 5. Failing any caching or system maintenance, pass the request to the
+  #    application.
+  #
+  location / {
+    if (-f $document_root/system/maintenance.html) { return 503; }
+    try_files $uri $uri/index.html $uri.html @app_<%= @app_name %>;
+  }
+   include /etc/nginx/servers/<%= @app_name %>/custom.conf;
+
+}
