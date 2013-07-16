@@ -65,7 +65,7 @@ private
   end
 
   def pi
-    @pi = calc_pi(20_000)
+    @pi = calc_pi(5_000)
     erb :pi
   end
 

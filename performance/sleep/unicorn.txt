@@ -1,3 +1,18 @@
+      done.
+
+Transactions:		      100000 hits
+Availability:		      100.00 %
+Elapsed time:		    16728.20 secs
+Data transferred:	       45.52 MB
+Response time:		       16.72 secs
+Transaction rate:	        5.98 trans/sec
+Throughput:		        0.00 MB/sec
+Concurrency:		       99.93
+Successful transactions:      100000
+Failed transactions:	           0
+Longest transaction:	       17.25
+Shortest transaction:	        1.20
+ 
 FILE: /usr/local/var/siege.log
 You can disable this annoying message by editing
 the .siegerc file in your home directory; change
