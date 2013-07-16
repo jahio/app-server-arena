@@ -19,7 +19,11 @@ get_pid()
 {
   # Contians master pid not that of workers
   pidfile="${pid_directory}/puma.pid"
-  current_pid=$(cat "$pidfile")
+  if [[ -s "$pidfile" ]] ; then
+    current_pid=$(cat "$pidfile")
+  else
+    current_pid=0
+  fi
 }
 
 start_puma()
@@ -32,12 +36,20 @@ stop_puma()
 {
   # get pid, send kill to pid
   get_pid
+  if [[ ${current_pid} == 0 ]] ; then
+    return 1
+  fi
+
   kill ${current_pid}
 }
 
 murder_puma()
 {
   get_pid
+  if [[ ${current_pid} == 0 ]] ; then
+    return 1
+  fi
+
   kill -9 ${current_pid} # forcably kill
 }
 
@@ -46,7 +58,11 @@ hot_restart()
   # sends SIGUSR2 to puma
   # get pid
   get_pid
-  kill -s USR2 ${current_pid}
+  if [[ ${current_pid} == 0 ]] ; then
+    start_puma
+  else
+    kill -s USR2 ${current_pid}
+  fi
 }
 
 # Take appropriate action depending on the argument
