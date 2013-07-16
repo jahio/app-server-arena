@@ -29,7 +29,7 @@ get_pid()
 start_puma()
 {
   cd "/data/${application}/current"
-  /usr/local/bin/bundle exec puma ${rackup_arguments} --pidfile ${pid_directory}/puma.pid -t 4:16 -w <%= @num_workers %> --preload -b unix:///var/run/engineyard/${application}/puma.sock > ${log_directory}/puma.log 2>&1 &
+  /usr/local/bin/bundle exec puma -e ${framework_env} --pidfile ${pid_directory}/puma.pid -t 4:16 -w <%= @num_workers %> --preload -b unix:///var/run/engineyard/${application}/puma.sock > ${log_directory}/puma.log 2>&1 &
 }
 
 stop_puma()
