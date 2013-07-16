@@ -1,0 +1,7 @@
+# Temporary file you can use to specify the hostnames in /etc/hosts for the various apps
+# (makes things a lot easier than digging up hostnames all the time)
+
+50.19.217.16 asa-puma
+75.101.135.181 asa-passenger
+23.21.135.111 asa-unicorn
+54.227.255.203 asa-thin
