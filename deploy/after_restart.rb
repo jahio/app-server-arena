@@ -16,7 +16,7 @@ end
 
 # If we're on the puma environment...
 if environment_name == "asa_puma"
-  run! "/data/#{app}/shared/config/puma_control restart"
+  run! "/data/#{app}/shared/config/#{app}_puma_control restart"
   sudo! "monit stop all -g #{app} && sleep 1"
   sudo! "monit unmonitor all -g #{app}"
 end
