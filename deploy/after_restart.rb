@@ -13,3 +13,10 @@ if environment_name == 'asa_thin'
   # Unmonitor Unicorn
   sudo! "monit unmonitor all -g unicorn_#{app}"
 end
+
+# If we're on the puma environment...
+if environment_name == "asa_puma"
+  run! "/data/#{app}/shared/config/puma_control restart"
+  sudo! "monit stop all -g #{app} && sleep 1"
+  sudo! "monit unmonitor all -g #{app}"
+end
