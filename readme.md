@@ -14,7 +14,7 @@ There's a very simple Sinatra application here designed to have some basic capab
 * Compute Pi to 20,000 decimal places
 * Hit Twitter and get the last 10 tweets from @devops_borat
 * Sleep for 5 seconds
-* Randomly do one of the above with a 50% chance to do the first
+* Randomly do one of the above with a 50% chance to do the first (except Twitter because of API rate limitations)
 
 The idea here is to provide diagnostic information (first point), do some mildly computationaly expensive task,
 and then have a way to see how things perform when waiting on network response.
@@ -22,3 +22,24 @@ and then have a way to see how things perform when waiting on network response.
 #### The slides
 
 TODO: Put slides online somewhere. Check back later and maybe this will be updated with something useful!
+
+#### Testing methodology
+
+I used a tool called [Siege](http://www.joedog.org/siege-home/) by [Jeff Fulmer](http://www.joedog.org/author/jdfulmer/).
+I'd had major problems getting apache bench to work right and stumbled on Siege, which has a lot of very interesting options.
+
+I used the following command/syntax to perform these tests,
+then put the results in flat files you can read under the "performance" subdirectory:
+
+```
+siege -r 1000 -c 100 -b -q http://asa-puma/sleep > puma.txt 2>&1
+```
+
+I'm not concerned with doing anything too fancy here, I just want a straight up, "how fast can you do it?" test.
+The arguments used:
+
++ ```-r``` repetitions. Do this test N number of times, in this case, 1000.
++ ```-c``` concurrency. How many simultaneous requests are we doing? In this case, 100 simultaneous requests, a thousdand times over.
++ ```-b``` benchmark. Removes internal throttling from siege. Really tries to hit the server crazy hard.
++ ```-q``` quiet. Suppresses output that otherwise shows every. single. get. request. ever. made. throughout the entire test.
+
