@@ -23,6 +23,31 @@ and then have a way to see how things perform when waiting on network response.
 
 TODO: Put slides online somewhere. Check back later and maybe this will be updated with something useful!
 
+### Performance Testing
+
+In no case can any of the performance tests here be taken as "gospel", or in any way interpreted that
+these simplistic use cases are in any way all-encompassing. These are really straight-forward and simple
+tests that show different servers under different situations, but are not generalizable and applicable to even
+a majority of applications out there, especially those in complex problem domains.
+
+In other words, **your mileage may vary.**
+
+My goal was to see which servers performed best under different circumstances. The application servers
+tested here were:
+
++ puma
++ Passenger 3 (we don't have Passenger 4 on Engine Yard Cloud yet)
++ Thin (I had to write a lot of custom chef to rip out our Unicorn stack and shove Thin in there, but it works)
++ Unicorn
+
+#### Testing hardware
+
+This app was deployed to four different environments on Engine Yard Cloud backed by Amazon EC2 in US East 1.
+All VMs are High CPU Mediums. They come with 2 VCPU cores each and 1.7GB of memory. No database was used and no
+external data store (with the exception of the Twitter example, since a REST API could be considered a data store)
+was used in the app because I didn't want to artificially slow down tests because the app server was waiting on, for example,
+the database driver for whatever reason - that'd just skew the tests in a weird way.
+
 #### Testing methodology
 
 I used a tool called [Siege](http://www.joedog.org/siege-home/) by [Jeff Fulmer](http://www.joedog.org/author/jdfulmer/).
