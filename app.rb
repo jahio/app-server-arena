@@ -42,7 +42,7 @@ private
   end
 
   def do_sleep
-    sleep 5
+    sleep 1
     erb :sleep
   end
 
