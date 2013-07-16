@@ -51,13 +51,9 @@ private
   def borat
     twitter = twitter_consumer
     response = twitter.request(:get, 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=devops_borat&count=10')
-    body = "<!DOCTYPE html>\n<html>\n<body>"
-    body << "Here's what Twitter came back with:\n\n<ul>\n"
-    JSON.parse(response.body).each do |x|
-      body << "<li>#{x["text"]}</li>\n"
-    end
-    body << "</ul>\n</body>\n</html>"
-    return body    
+
+    @tweets = JSON.parse(response.body)
+    erb :borat
   end
 
   def server
@@ -108,7 +104,7 @@ private
   # These two methods are to be used for a semi-computationally expensive task,
   # simulating real wock without the loss of control that would come from
   # abdicating control to IO (e.g. database, HTTP API, file access, etc.)
-  # Found at stack overflow: 
+  # Found at stack overflow:
   # http://stackoverflow.com/questions/3137594/how-to-create-pi-sequentially-in-ruby
   def arccot(x, unity)
    xpow = unity / x

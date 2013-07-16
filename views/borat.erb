@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>What's @devops_borat been up to?</title>
+</head>
+
+<body>
+  So looks like <a href="https://twitter.com/devops_borat">@devops_borat</a> has a few things on his mind...
+  <ul>
+    <% @tweets.each do |t| %>
+    <li><%= t["text"] %></li>
+    <% end %>
+  </ul>
+</body>
+</html>
