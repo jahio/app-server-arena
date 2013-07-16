@@ -36,8 +36,6 @@ private
       server
     when 6..7
       do_sleep
-    when 8..9
-      borat
     else
       pi
     end
