@@ -98,16 +98,28 @@ and allows for hot restarts - restarting only one worker at a time after having 
 
 Thin works much like Unicorn, except that when started in cluster mode, each Thin worker opens its own socket, or is
 bound to its own port. Nginx can then be configured to "round-robin" balance requests between as many Thin sockets/ports
-as you have configured to start.
+as you have configured to start. It doesn't have a master process (by default) that runs and monitors the workers like
+Unicorn does, but it is capable of a "hot restart" using the "onebyone" option in configuration, which restarts one
+worker at a time for zero-downtime deploys.
 
-Under the hood, Thin relies on an EventMachine-based architecture.
-
-TODO: Check thin master proc
+Under the hood, Thin relies on an EventMachine-based architecture. This is not a fully asynchronous architecture
+like Puma, launching new requests in threads, but in theory it should allow for significant speed improvements by taking
+action only when enough data has been received from the client, for example.
 
 #### Puma
 
 Puma can be configured to bind to ports, or to pull from a socket, just like Thin and Unicorn. However, unlike Thin
-and Unicorn, Puma will open a new thread for each incoming request.
+and Unicorn, Puma will open a new thread for each incoming request. This means that blocking actions that aren't
+necessarily heavy on CPU usage should not be a problem for Puma.
+
+However, when discussing threading, we must constantly be aware of Ruby's Global VM Lock (GVL). This is a limitation
+ - possibly a feature - of the language that ensures that even when launching new threads, except in specific cases,
+Ruby will only execute one **ruby** code instruction at a time. MRI can still hand off async instructions to underlying
+C-based drivers, for example, but as for executing actual Ruby code, the GVL ensures that only one instruction is processed
+at a time per each Ruby process.
+
+For this reason, Puma will run best under JRuby or Rubinius. Unfortunately, I didn't have time to profile Puma under
+either of these interpreters; instead performance benchmarking below is based on MRI 2.0.
 
 ### Performance Testing
 
