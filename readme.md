@@ -3,6 +3,11 @@
 
 ### Lonestar Ruby Conference, Austin, TX: July 19th, 2013
 
+# NOTE: THIS DOCUMENT IS A WORK IN PROGRESS.
+
+There may be technical inaccuracies or omissions at this point. These are being fact checked
+prior to the conference.
+
 This repository contains code, notes and other assets pertaining to my talk entitled
 "App Server Arena" that was given at Lonestar Ruby Conf in 2013.
 
@@ -22,6 +27,87 @@ and then have a way to see how things perform when waiting on network response.
 #### The slides
 
 TODO: Put slides online somewhere. Check back later and maybe this will be updated with something useful!
+
+## Comparing Application Servers
+
+The application servers in question here - Puma, Unicorn, Thin and Passenger (v3) - were compared
+in several categories:
+
++ Mode of Operation (Fighting Style)
++ Use Cases (Strategy)
++ Configuration (Training)
++ Performance (Combat)
+
+### Mode of Operation (Fighting Style)
+
+Ancient gladiators had preferences for certain weapons and fighting styles in the Collesseum (TODO: Spelling).
+Some would use sword and shield, a net to trap opponents, a trident or polearm, perhaps even projectile weapons like a bow
+and arrow.
+
+These application servers also operate in different ways.
+
+#### Passenger
+
+Phusion Passenger operates by embedding itself into nginx or Apache. In this example, I only examined nginx simply because
+Engine Yard does not use Apache in our stack.
+
+There's one interesting side effect of using nginx with Passenger, however: because nginx doesn't have a "plugin-like"
+architecture, similar to the way Apache does, nginx has to be *recompiled from scratch using Phusion's nginx source code*
+with their modifications to compile and run Passenger. This is usually not a big deal, and to Phusion's credit they generally
+do a pretty good job with it, but it should be noted that now instead of being able to get nginx straight from its maintainers,
+now you'll have to get it through Phusion for their updates (unless you're merging nginx and Passenger code yourself,
+which, let's face it, is kinda crazy).
+
+Once compiled and installed, Passenger is basically a part of nginx. You then configure Passenger by modifying nginx
+configuration - usually somewhere like /etc/nginx/ or /opt/nginx.
+
+Passenger has a huge array of configuration options to choose from to suit nearly any environment. However, it should
+be noted that under its default configuration, Passenger will use an elastic worker spawning method that Phusion calls
+"smart spawning". This spawning method essentially *waits until a worker is necessary before starting one*. This has
+numerous benefits and unintended side effects, however, that we'll get into later.
+
+When Passenger is configured, it's set as a "location" in nginx configuration. Further configuration instructs
+nginx to forward requests to that location, which is how Passenger then takes over. It takes a given request, finds
+and available worker, and then forwards the request to it. There are two ways to configure this request routing internally:
+
++ per-worker
++ pool-wide (global queue)
+
+With the per-worker feature, Passenger maintains a separate queue for each worker. This can be problematic if
+a request comes in that takes a while and other requests are queued up behind it in the same worker.
+
+The second option, a global queue, allows Passenger to put all requests on the same queue "stack". Workers then
+are given whatever is next on this stack, thus making the long request situation a little less problematic.
+
+#### Unicorn
+
+Unicorn, by contrast to Passenger, doesn't have an internal "tie-in" with nginx, nor does it have a single router
+process. Instead, Unicorn launches a master process that contains one single copy of your application in memory, and then
+forks itself into worker processes. The number of worker processes depends on how Unicorn is configured; it could be one to
+as many as the machine can reasonably hold.
+
+Unicorn is then configured to bind to a unix socket on the local machine. Requests from nginx, then, are placed in this
+socket. Each worker then, of its own volition, dips into the socket, finds the next request to handle, works it, then
+returns a response to nginx.
+
+The Unicorn master process, in this case, stands by and observes each of its workers. If any worker becomes unresponsive,
+the master kills the worker and simply forks itself again. In this way, Unicorn's overall architecture is rather stable,
+and allows for hot restarts - restarting only one worker at a time after having code deployed.
+
+#### Thin
+
+Thin works much like Unicorn, except that when started in cluster mode, each Thin worker opens its own socket, or is
+bound to its own port. Nginx can then be configured to "round-robin" balance requests between as many Thin sockets/ports
+as you have configured to start.
+
+Under the hood, Thin relies on an EventMachine-based architecture.
+
+TODO: Check thin master proc
+
+#### Puma
+
+Puma can be configured to bind to ports, or to pull from a socket, just like Thin and Unicorn. However, unlike Thin
+and Unicorn, Puma will open a new thread for each incoming request.
 
 ### Performance Testing
 
