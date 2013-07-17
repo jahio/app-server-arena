@@ -1,0 +1,154 @@
+[[1;32malert[0m] socket: 149626880 select timed out: Operation timed out
+[[1;32malert[0m] socket: 120651776 select timed out: Operation timed out
+[[1;32malert[0m] socket: 126017536 select timed out: Operation timed out
+[[1;32malert[0m] socket: 159285248 select timed out: Operation timed out
+[[1;32malert[0m] socket: 134066176 select timed out: Operation timed out
+[[1;32malert[0m] socket: 144261120 select timed out: Operation timed out
+[[1;32malert[0m] socket: 150700032 select timed out: Operation timed out
+[[1;32malert[0m] socket: 134602752 select timed out: Operation timed out
+[[1;32malert[0m] socket: 132456448 select timed out: Operation timed out
+[[1;32malert[0m] socket: 113139712 select timed out: Operation timed out
+[[1;32malert[0m] socket: 149626880 select timed out: Operation timed out
+[[1;32malert[0m] socket: 115822592 select timed out: Operation timed out
+[[1;32malert[0m] socket: 136212480 select timed out: Operation timed out
+[[1;32malert[0m] socket: 148017152 select timed out: Operation timed out
+[[1;32malert[0m] socket: 151773184 select timed out: Operation timed out
+[[1;32malert[0m] socket: 143724544 select timed out: Operation timed out
+[[1;32malert[0m] socket: 112066560 select timed out: Operation timed out
+[[1;32malert[0m] socket: 159821824 select timed out: Operation timed out
+[[1;32malert[0m] socket: 122798080 select timed out: Operation timed out
+[[1;32malert[0m] socket: 119578624 select timed out: Operation timed out
+[[1;32malert[0m] socket: 128700416 select timed out: Operation timed out
+[[1;32malert[0m] socket: 157138944 select timed out: Operation timed out
+[[1;32malert[0m] socket: 130846720 select timed out: Operation timed out
+[[1;32malert[0m] socket: 153919488 select timed out: Operation timed out
+[[1;32malert[0m] socket: 149090304 select timed out: Operation timed out
+[[1;32malert[0m] socket: 160358400 select timed out: Operation timed out
+[[1;32malert[0m] socket: 155529216 select timed out: Operation timed out
+[[1;32malert[0m] socket: 120115200 select timed out: Operation timed out
+[[1;32malert[0m] socket: 137285632 select timed out: Operation timed out
+[[1;32malert[0m] socket: 117432320 select timed out: Operation timed out
+[[1;32malert[0m] socket: 139968512 select timed out: Operation timed out
+[[1;32malert[0m] socket: 117968896 select timed out: Operation timed out
+[[1;32malert[0m] socket: 146944000 select timed out: Operation timed out
+[[1;32malert[0m] socket: 144797696 select timed out: Operation timed out
+[[1;32malert[0m] socket: 152309760 select timed out: Operation timed out
+[[1;32malert[0m] socket: 131919872 select timed out: Operation timed out
+[[1;32malert[0m] socket: 135139328 select timed out: Operation timed out
+[[1;32malert[0m] socket: 130310144 select timed out: Operation timed out
+[[1;32malert[0m] socket: 133529600 select timed out: Operation timed out
+[[1;32malert[0m] socket: 129773568 select timed out: Operation timed out
+[[1;32malert[0m] socket: 123334656 select timed out: Operation timed out
+[[1;32malert[0m] socket: 114749440 select timed out: Operation timed out
+[[1;32malert[0m] socket: 135675904 select timed out: Operation timed out
+[[1;32malert[0m] socket: 113676288 select timed out: Operation timed out
+[[1;32malert[0m] socket: 141578240 select timed out: Operation timed out
+[[1;32malert[0m] socket: 136749056 select timed out: Operation timed out
+[[1;32malert[0m] socket: 143187968 select timed out: Operation timed out
+[[1;32malert[0m] socket: 145334272 select timed out: Operation timed out
+[[1;32malert[0m] socket: 114212864 select timed out: Operation timed out
+[[1;32malert[0m] socket: 154456064 select timed out: Operation timed out
+[[1;32malert[0m] socket: 160894976 select timed out: Operation timed out
+[[1;32malert[0m] socket: 158212096 select timed out: Operation timed out
+[[1;32malert[0m] socket: 131383296 select timed out: Operation timed out
+[[1;32malert[0m] socket: 124944384 select timed out: Operation timed out
+[[1;32malert[0m] socket: 112603136 select timed out: Operation timed out
+[[1;32malert[0m] socket: 137822208 select timed out: Operation timed out
+[[1;32malert[0m] socket: 127090688 select timed out: Operation timed out
+[[1;32malert[0m] socket: 164114432 select timed out: Operation timed out
+[[1;32malert[0m] socket: 152846336 select timed out: Operation timed out
+[[1;32malert[0m] socket: 138895360 select timed out: Operation timed out
+[[1;32malert[0m] socket: 123871232 select timed out: Operation timed out
+[[1;32malert[0m] socket: 154992640 select timed out: Operation timed out
+[[1;32malert[0m] socket: 121724928 select timed out: Operation timed out
+[[1;32malert[0m] socket: 163577856 select timed out: Operation timed out
+[[1;32malert[0m] socket: 164651008 select timed out: Operation timed out
+[[1;32malert[0m] socket: 142651392 select timed out: Operation timed out
+[[1;32malert[0m] socket: 161968128 select timed out: Operation timed out
+[[1;32malert[0m] socket: 121188352 select timed out: Operation timed out
+[[1;32malert[0m] socket: 148553728 select timed out: Operation timed out
+[[1;32malert[0m] socket: 156602368 select timed out: Operation timed out
+[[1;32malert[0m] socket: 132993024 select timed out: Operation timed out
+[[1;32malert[0m] socket: 124407808 select timed out: Operation timed out
+[[1;32malert[0m] socket: 126554112 select timed out: Operation timed out
+[[1;32malert[0m] socket: 146407424 select timed out: Operation timed out
+[[1;32malert[0m] socket: 140505088 select timed out: Operation timed out
+[[1;32malert[0m] socket: 144261120 select timed out: Operation timed out
+[[1;32malert[0m] socket: 150700032 select timed out: Operation timed out
+[[1;32malert[0m] socket: 120651776 select timed out: Operation timed out
+[[1;32malert[0m] socket: 157675520 select timed out: Operation timed out
+[[1;32malert[0m] socket: 158748672 select timed out: Operation timed out
+[[1;32malert[0m] socket: 119042048 select timed out: Operation timed out
+[[1;32malert[0m] socket: 115286016 select timed out: Operation timed out
+[[1;32malert[0m] socket: 113139712 select timed out: Operation timed out
+[[1;32malert[0m] socket: 134066176 select timed out: Operation timed out
+[[1;32malert[0m] socket: 151236608 select timed out: Operation timed out
+[[1;32malert[0m] socket: 134602752 select timed out: Operation timed out
+[[1;32malert[0m] socket: 118505472 select timed out: Operation timed out
+[[1;32malert[0m] socket: 127627264 select timed out: Operation timed out
+[[1;32malert[0m] socket: 126017536 select timed out: Operation timed out
+[[1;32malert[0m] socket: 136212480 select timed out: Operation timed out
+[[1;32malert[0m] socket: 115822592 select timed out: Operation timed out
+[[1;32malert[0m] socket: 143724544 select timed out: Operation timed out
+[[1;32malert[0m] socket: 132456448 select timed out: Operation timed out
+[[1;32malert[0m] socket: 159285248 select timed out: Operation timed out
+[[1;32malert[0m] socket: 159821824 select timed out: Operation timed out
+[[1;32malert[0m] socket: 128700416 select timed out: Operation timed out
+[[1;32malert[0m] socket: 148017152 select timed out: Operation timed out
+[[1;32malert[0m] socket: 157138944 select timed out: Operation timed out
+[[1;32malert[0m] socket: 149090304 select timed out: Operation timed out
+[[1;32malert[0m] socket: 119578624 select timed out: Operation timed out
+[[1;32malert[0m] socket: 120115200 select timed out: Operation timed out
+[[1;32malert[0m] socket: 117432320 select timed out: Operation timed out
+[[1;32malert[0m] socket: 149626880 select timed out: Operation timed out
+[[1;32malert[0m] socket: 130846720 select timed out: Operation timed out
+[[1;32malert[0m] socket: 153919488 select timed out: Operation timed out
+[[1;32malert[0m] socket: 142114816 select timed out: Operation timed out
+[[1;32malert[0m] socket: 160358400 select timed out: Operation timed out
+[[1;32malert[0m] socket: 155529216 select timed out: Operation timed out
+[[1;32malert[0m] socket: 117968896 select timed out: Operation timed out
+[[1;32malert[0m] socket: 139968512 select timed out: Operation timed out
+[[1;32malert[0m] socket: 144797696 select timed out: Operation timed out
+[[1;32malert[0m] socket: 131919872 select timed out: Operation timed out
+[[1;32malert[0m] socket: 133529600 select timed out: Operation timed out
+[[1;32malert[0m] socket: 137285632 select timed out: Operation timed out
+[[1;32malert[0m] socket: 146944000 select timed out: Operation timed out
+[[1;32malert[0m] socket: 130310144 select timed out: Operation timed out
+[[1;32malert[0m] socket: 129773568 select timed out: Operation timed out
+[[1;32malert[0m] socket: 123334656 select timed out: Operation timed out
+[[1;32malert[0m] socket: 135675904 select timed out: Operation timed out
+[[1;32malert[0m] socket: 143187968 select timed out: Operation timed out
+[[1;32malert[0m] socket: 112066560 select timed out: Operation timed out
+[[1;32malert[0m] socket: 145334272 select timed out: Operation timed out
+[[1;32malert[0m] socket: 141578240 select timed out: Operation timed out
+[[1;32malert[0m] socket: 131383296 select timed out: Operation timed out
+[[1;32malert[0m] socket: 154456064 select timed out: Operation timed out
+[[1;32malert[0m] socket: 135139328 select timed out: Operation timed out
+[[1;32malert[0m] socket: 163041280 select timed out: Operation timed out
+[[1;32malert[0m] socket: 156065792 select timed out: Operation timed out
+[[1;32malert[0m] socket: 151773184 select timed out: Operation timed out
+[[1;32malert[0m] socket: 113676288 select timed out: Operation timed out
+[[1;32malert[0m] socket: 116359168 select timed out: Operation timed out
+[[1;32malert[0m] socket: 111529984 select timed out: Operation timed out
+[[1;32malert[0m] socket: 145870848 select timed out: Operation timed out
+[[1;32malert[0m] socket: 128163840 select timed out: Operation timed out
+[[1;32malert[0m] socket: 137822208 select timed out: Operation timed out
+      done.
+
+Transactions:		       99865 hits
+Availability:		       99.87 %
+Elapsed time:		     8631.17 secs
+Data transferred:	      169.83 MB
+Response time:		        8.48 secs
+Transaction rate:	       11.57 trans/sec
+Throughput:		        0.02 MB/sec
+Concurrency:		       98.14
+Successful transactions:       99865
+Failed transactions:	         135
+Longest transaction:	       30.08
+Shortest transaction:	        0.10
+ 
+FILE: /usr/local/var/siege.log
+You can disable this annoying message by editing
+the .siegerc file in your home directory; change
+the directive 'show-logfile' to false.
