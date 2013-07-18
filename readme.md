@@ -425,6 +425,57 @@ The arguments used:
 + ```-b``` benchmark. Removes internal throttling from siege. Really tries to hit the server crazy hard.
 + ```-q``` quiet. Suppresses output that otherwise shows every. single. get. request. ever. made. throughout the entire test.
 
-#### Results
+#### Results & Analysis
 
+##### Passenger
 
+Performed reasonably well all around. Fell over hard on the pi test and failed to complete /server.
+Didn't even make it a quarter of the way through /sleep. Roughly on-par with the other contestants when
+doing simple tasks under mild to moderate load. Highest rate of concurrency on /borat test.
+
+Outperformed Puma in the /random test and maintained a very high degree of concurrency during the same.
+Failed to complete the /random test however, and had the longest "shortest duration" metric. Average.
+Appears to be a solid contender for generic use cases. Will likely outperform the others here in a
+low-to-moderate traffic, multi-application deployment due to its elastic loading of applications
+into memory, thus making your dollar go farther.
+
+##### Unicorn
+
+Faster than Passenger or Thin with /borat, has second highest transaction rate for the same.
+Shortest duration of both longest and shortest transaction with /borat as well. One of only
+two that actually finished the /pi test, and did so faster than Thin. Maintained highest
+concurrency and transaction rates on /pi of all contestants. Had the shortest "longest transaction"
+on /pi. Completed entire /server test. Was second in total duration only to Thin. Only contestant
+to complete all /sleep tests and still managed to have the shortest "longest transaction" duration.
+
+Zero failed transactions on /random with highest concurrency rating.
+
+##### Thin
+
+One of only two to complete the /pi test, though it was slightly slower than Unicorn. Had the shortest
+transaction under /pi and quickest "longest transaction" under /server. Maintained highest concurrency
+rating and transaction rate under /server. Failed *miserably* with /sleep, however, only completing 66
+requests!
+
+One of only two to finish the /random test, though it took much longer than Unicorn and had the lowest
+transaction rate. Thin appears to be an excellent choice for any application that doesn't rely on lots of
+wait-like scenarios or that don't have much request queueing.
+
+##### Puma
+
+Fastest to finish /borat. Failed *miserably* with the /pi test. On par with Unicorn's speed for finishing the
+/server test, had second highest transaction rate for the same. Surprisingly, had the lowest concurrency rating
+for the /server test, in spite of its threaded model; Thin's EventMachine model gave the best appearance of
+concurrent request processing. Failed the /sleep test horribly, finishing fewer than 25% of the test.
+
+Failed the /random test horribly, finishing less than 25%. I found this extremely odd so I went for a *second*
+round for Puma on the /random test, thinking that perhaps over my planned 100,000 requests, it was thrown
+an inordinate number of "pi" tests (because it is random, after all). The results were repeated the second
+time around. While it's still possible that it was hit with an unusually large number of "pi" tests, it's not
+as likely as it just plain doesn't work well when presented with computationally expensive tasks while processing
+multiple other incoming requests.
+
+In all fairness, due to Ruby's GVL, I should have at least run more Puma workers. Instead, in the interest of
+research, I ran only as many as there are CPU cores on the machine (2) because I wanted to see, even with a
+1:1 worker:core ratio how Puma performed compared to its contemporaries. In most cases, the /pi and /random
+tests being notable exceptions, it performs on-par with most.
