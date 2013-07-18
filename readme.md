@@ -424,3 +424,6 @@ The arguments used:
 + ```-b``` benchmark. Removes internal throttling from siege. Really tries to hit the server crazy hard.
 + ```-q``` quiet. Suppresses output that otherwise shows every. single. get. request. ever. made. throughout the entire test.
 
+#### Results
+
+
