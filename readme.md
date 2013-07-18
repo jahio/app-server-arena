@@ -345,7 +345,7 @@ spawn the same number you would for Thin or Unicorn
 
 ### The Arena
 
-The arena in which all these application servers will do battle is an application in this repository.
+The arena in which all these application servers will do battle is the application in this repository.
 It's a basic Sinatra app with some purely academic examples, not designed to do real, meaningful work, but
 instead to attempt a fair (or "fair enough") set of tasks for each application server to process and repeat
 multiple times.
@@ -374,7 +374,8 @@ I would have liked. I also was unable to include it in my /random test for that 
 
 #### /sleep
 
-Sleeps for 1 second then returns a response. Frankly I just wanted to see what this would do :)
+Sleeps for 1 second then returns a response. Spoofs unusually high request queuing and shows how each
+processes requests while stuck in a "wait" like situation.
 
 #### /random
 
@@ -389,9 +390,6 @@ tests that show different servers under different situations, but are not genera
 a majority of applications out there, especially those in complex problem domains.
 
 In other words, **your mileage may vary.**
-
-My goal was to see which servers performed best under different circumstances. The application servers
-tested here were:
 
 #### Testing hardware
 
@@ -417,6 +415,9 @@ siege -r 1000 -c 100 -b -q http://asa-puma/sleep > puma.txt 2>&1
 ```
 
 I'm not concerned with doing anything too fancy here, I just want a straight up, "how fast can you do it?" test.
+With the /borat example hitting the Twitter API, I left off the -b (benchmark) option to allow siege to internally
+throttle requests so as not to get blacklisted from Twitter.
+
 The arguments used:
 
 + ```-r``` repetitions. Do this test N number of times, in this case, 1000.
