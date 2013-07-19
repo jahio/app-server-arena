@@ -425,6 +425,42 @@ The arguments used:
 + ```-b``` benchmark. Removes internal throttling from siege. Really tries to hit the server crazy hard.
 + ```-q``` quiet. Suppresses output that otherwise shows every. single. get. request. ever. made. throughout the entire test.
 
+Other than that, I used the default settings for siege:
+
+```
+jaustinhughey:~/ $ siege -C                                                                                                                                                                                                        [14:45:02]
+CURRENT  SIEGE  CONFIGURATION
+JoeDog/1.00 [en] (X11; I; Siege 3.0.0)
+Edit the resource file to change the settings.
+----------------------------------------------
+version:                        3.0.0
+verbose:                        true
+quiet:                          false
+debug:                          false
+protocol:                       HTTP/1.1
+get method:                     HEAD
+connection:                     close
+concurrent users:               15
+time to run:                    n/a
+repetitions:                    n/a
+socket timeout:                 30
+delay:                          1 sec
+internet simulation:            false
+benchmark mode:                 false
+failures until abort:           1024
+named URL:                      none
+URLs file:                      /usr/local/Cellar/siege/3.0.0/etc/urls.txt
+logging:                        true
+log file:                       /usr/local/var/siege.log
+resource file:                  /usr/local/Cellar/siege/3.0.0/etc/siegerc
+timestamped output:             false
+comma separated output:         false
+allow redirects:                true
+allow zero byte data:           true
+allow chunked encoding:         true
+upload unique files:            true
+```
+
 #### Results & Analysis
 
 ##### Passenger
