@@ -3,11 +3,6 @@
 
 ### Lonestar Ruby Conference, Austin, TX: July 19th, 2013
 
-# NOTE: THIS DOCUMENT IS A WORK IN PROGRESS.
-
-There may be technical inaccuracies or omissions at this point. These are being fact checked
-prior to the conference.
-
 This repository contains code, notes and other assets pertaining to my talk entitled
 "App Server Arena" that was/is to be given at Lonestar Ruby Conf in 2013.
 
@@ -21,12 +16,17 @@ There's a very simple Sinatra application here designed to have some basic capab
 * Sleep for 1 second
 * Randomly do one of the above with a 50% chance to do the first (except Twitter because of API rate limitations)
 
-The idea here is to provide diagnostic information (first point), do some mildly computationaly expensive task,
+The idea here is to provide diagnostic information, do some mildly computationaly expensive task,
 and then have a way to see how things perform when waiting on network response.
 
 #### The slides
 
-TODO: Put slides online somewhere. Check back later and maybe this will be updated with something useful!
+You can see the slides from this presentation at Slideshare.net:
+
+http://www.slideshare.net/jaustinhughey/app-server-arena-a-comparison-of-ruby-application-servers
+
+Note that the formatting is off due to the fact that Slideshare doesn't like Keynote documents, so
+I had to export this as PPT. How lame is *that*?
 
 ## An introduction to the gladiators
 
@@ -118,7 +118,7 @@ machines.
 Passenger has a dizzying array of configuration options detailed at http://www.modrails.com/documentation/Users%20guide%20Nginx.html.
 Some of the more salient ones are listed here.
 
-+ passenger_ruby - tell Passenger which ruby interpreter to use, useful if you have more than one on a machine
++ passenger_ruby - tell Passenger which ruby interpreter to use
 + passenger_spawn_method - smart or direct; smart caches code on spawn, direct doesn't. Direct is more compatible
 with some applications in some cases, but is slower than smart.
 + passenger_max_pool_size - max number of application workers that can exist across ALL applications.
@@ -136,7 +136,7 @@ All Passenger configuration belongs in nginx configuration. Varioud directives c
 [Unicorn](http://unicorn.bogomips.org) is an application server for fast clients and applications that has a really great
 operational infrastructure under the hood, relying on in-memory forking to recover crashed workers and pulling requests from
 a unix socket instead of a primary router process or thread. It can be configured to call Ruby blocks before_fork and
-after_fork during its operation, and can do zero downtime deploys when the master receives a HUP signal.
+after_fork during its operation, and can do zero downtime deploys when the master receives a HUP signal or a USR2+QUIT.
 
 #### Mode of Operation (Fighting Style)
 
@@ -169,7 +169,7 @@ changed in Unicorn's configuration, however.
 Unlike Passenger (even version 4 - except enterprise), Unicorn is capable of a zero downtime deploy. By sending the Unicorn
 master a HUP signal, it will reload itself and its workers based off your most recent code deploy. Note that if using the
 preload_app feature, a USR2 + QUIT has to be sent to the master process. This tells the master to load up another copy of
-itself, and once verified that copy is running, kill off its old workers and finally itself. Either case can effect
+itself, and once verified that copy is running, kill off its old workers. Either case can effect
 a zero-downtime deploy, though the second of these can cause a temporary memory usage spike depending on the size
 of the application.
 
@@ -244,9 +244,9 @@ for something to finish).
 
 #### Use Cases (Strategy)
 
-Thin isn't yet available on Engine Yard Cloud (let us know if you'd like to see this change), though it can be
-installed via custom chef recipes, which I've done for this talk (and the source code can be seen in the
-cookbooks/ directory).
+Thin isn't yet available on Engine Yard Cloud ([let us know](https://support.cloud.engineyard.com/forums/30086-Feature-Requests)
+if you'd like to see this change), though it can be installed via custom chef recipes, which I've done for this talk
+(and the source code can be seen in the cookbooks/ directory).
 
 Like Unicorn, Thin is best suited to a single application running at all times on a given host. Since our
 platform doesn't support Thin at this point in time, we can't offer up any comparisons of Thin versus any of the other
@@ -317,7 +317,7 @@ gain even on MRI 2.0, depending on what's going on.
 Puma is best suited to single applications running on a host, just like Thin and Unicorn. However, because it's
 multi-threaded, if you run a Ruby implementation without an internal GVL (JRuby/Rubinius), you can theoretically
 run a single Puma process on your machine instead of one worker per core plus a few for good measure as you
-generally have to for the other application servers mentioned here. This is because Puma can theoretically request a new thread from
+generally have to for the other application servers mentioned here. This is because Puma can request a new thread from
 the operating system for each incoming request, drop execution of that thread while waiting on external events (disk I/O,
 database driver access, network I/O, etc.), pick up other threads while this is going on, and and then pick up execution
 of the other thread after the "wait" event is finished.
@@ -461,6 +461,12 @@ allow chunked encoding:         true
 upload unique files:            true
 ```
 
+A quick note about the "concurrency" rating you'll see in these tests: the higher it is, the *worse* the app
+server performed. This is because the number in the concurrency rating is how many requests are being processed
+at the same time, on average. If performance is high, very few things will be processed "at the same time" because
+formerly issued instructions (requests) will have already been processed. So, higher concurrency, lower performance
+according to siege output.
+
 #### Results & Analysis
 
 ##### Passenger
@@ -500,9 +506,8 @@ wait-like scenarios or that don't have much request queueing.
 ##### Puma
 
 Fastest to finish /borat. Failed *miserably* with the /pi test. On par with Unicorn's speed for finishing the
-/server test, had second highest transaction rate for the same. Surprisingly, had the lowest concurrency rating
-for the /server test, in spite of its threaded model; Thin's EventMachine model gave the best appearance of
-concurrent request processing. Failed the /sleep test horribly, finishing fewer than 25% of the test.
+/server test, had second highest transaction rate for the same. Failed the /sleep test horribly, finishing fewer
+than 25% of the test.
 
 Failed the /random test horribly, finishing less than 25%. I found this extremely odd so I went for a *second*
 round for Puma on the /random test, thinking that perhaps over my planned 100,000 requests, it was thrown
@@ -514,4 +519,13 @@ multiple other incoming requests.
 In all fairness, due to Ruby's GVL, I should have at least run more Puma workers. Instead, in the interest of
 research, I ran only as many as there are CPU cores on the machine (2) because I wanted to see, even with a
 1:1 worker:core ratio how Puma performed compared to its contemporaries. In most cases, the /pi and /random
-tests being notable exceptions, it performs on-par with most.
+tests being notable exceptions, it performs on-par with the others tested here.
+
+### Takeaways
+
++ Multiple low traffic apps on limited hardware? Passenger.
++ Using live streaming in Rails 4? Puma or Thin.
++ Single app, fast request/response cycle (maybe an API for example)? Unicorn.
++ This test wasn't as fair as it should have been to Puma because of the GVL in MRI. The test should be repeated
+under JRuby and/or Rubinius to see how it performs when it has all the tools it's supposed to.
++ Passenger 4 may blow Passenger 3 out of the water - we'll just have to wait and see.
