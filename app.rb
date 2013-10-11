@@ -16,10 +16,6 @@ class AppServerArena < Sinatra::Base
     pi
   end
 
-  get '/borat' do
-    borat
-  end
-
   get '/sleep' do
     do_sleep
   end
@@ -44,14 +40,6 @@ private
   def do_sleep
     sleep 1
     erb :sleep
-  end
-
-  def borat
-    twitter = twitter_consumer
-    response = twitter.request(:get, 'https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=devops_borat&count=10')
-
-    @tweets = JSON.parse(response.body)
-    erb :borat
   end
 
   def server
