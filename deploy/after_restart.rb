@@ -1,6 +1,6 @@
 # Thin doesn't come standard on Engine Yard, so after restart, if this is
 # a thin app, shut off unicorn and turn on thin.
-if environment_name == 'asa_thin'
+if config.environment_name == 'asa_thin'
   # Start thin ASAP
   run! "/data/#{app}/shared/config/thin_control.sh restart"
     # Will log errors if thin isn't already running but that's no biggie,
@@ -15,7 +15,7 @@ if environment_name == 'asa_thin'
 end
 
 # If we're on the puma environment...
-if environment_name == "asa_puma"
+if config.environment_name == "asa_puma"
   run! "/data/#{app}/shared/config/#{app}_puma_control restart && sleep 1"
   sudo! "sleep 5 && monit stop all -g #{app} && sleep 1"
   sudo! "monit unmonitor all -g #{app} && sleep 1"
